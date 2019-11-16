@@ -4,6 +4,8 @@
 
 {% if latest_question_list %}
     <ul>
+    <h1 id="myHeader"> Worcester Voting </h1>
+
     {% for question in latest_question_list %}
         <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
     {% endfor %}
