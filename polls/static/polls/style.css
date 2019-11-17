@@ -19,3 +19,13 @@ h2 {
     font-weight: 700;
     font-size: 150%;
 }
+
+h3 {
+    font-weight: 400;
+    font-size: 120%;
+}
+
+form {
+    width: 50%;
+    margin: auto;
+}

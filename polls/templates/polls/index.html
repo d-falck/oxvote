@@ -1,7 +1,7 @@
 {% extends "polls/base.html" %}
 
 {% block title %}
-    OxVote Home
+    Worcester College JCR<br>Elections and Referenda
 {% endblock %}
 
 {% block content %}
@@ -9,7 +9,7 @@
         <h2>Welcome, {{ user.username }}! <br> Polls currently open:</h2>
 
         {% for question in latest_question_list %}
-            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            <h3><li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li></h3>
         {% endfor %}
     {% else %}
         No polls are available.
