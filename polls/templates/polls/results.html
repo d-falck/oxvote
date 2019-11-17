@@ -1,11 +1,11 @@
-<h1>{{ question.question_text }}</h1>
+{% extends "polls/base.html" %}
 
-<ul>
-{% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
-{% endfor %}
-</ul>
+{% block title %}
+    Thank you
+{% endblock %}
 
-<p> Thank you very much for taking the time to vote. </p>
+{% block content %}
+    Thank you very much for taking the time to vote.
 
- <!--<a href="{% url 'polls:detail' question.id %}">Vote again?</a>-->
+    <a href="{% url 'polls:index' %}">Return to all polls.</a>
+{% endblock %}

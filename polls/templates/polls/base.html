@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,900&display=swap" rel="stylesheet">
+        <title>OxVote</title>
+    </head>
+
+    <body>
+        <h1>{% block title %}{% endblock %}</h1>
+
+        {% block content %}{% endblock %}
+    </body>
+
+    <footer>
+        <br>
+        <a href="{% url 'logout' %}">Log out</a>
+    </footer>
+</html>
