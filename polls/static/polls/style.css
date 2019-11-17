@@ -11,7 +11,7 @@ body {
 
 h1 {
     font-weight: 900;
-    font-size: 250%;
+    font-size: 200%;
     text-align: center;
 }
 
@@ -26,6 +26,19 @@ h3 {
 }
 
 form {
-    width: 50%;
+    text-align: center;
+    font-weight: 500;
+    font-size: 120%;
+}
+
+input[type=submit] {
+    font-weight: 500;
+    font-size: 30pt;
+}
+
+.options {
+    max-width: 50%;
     margin: auto;
+    text-align: left;
+    display: inline-block;
 }

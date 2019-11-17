@@ -10,16 +10,14 @@ from .models import Choice, Question
 
 class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'polls/index.html'
-    context_object_name = 'latest_question_list'
+    context_object_name = 'current_question_list'
 
     def get_queryset(self):
         """
-        Return the last five published questions (not including those set to be
-        published in the future).
+        Return all questions currently polling.
         """
-        return Question.objects.filter(
-            pub_date__lte=timezone.now()
-        ).order_by('-pub_date')[:5]
+        return Question.objects.filter(polls_open__lte=timezone.now(),
+            polls_close__gte=timezone.now()).order_by('-polls_close')
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
     model = Question
@@ -27,9 +25,10 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
 
     def get_queryset(self):
         """
-        Excludes any questions that aren't published yet.
+        Excludes any questions that aren't currently polling.
         """
-        return Question.objects.filter(pub_date__lte=timezone.now())
+        return Question.objects.filter(polls_open__lte=timezone.now(),
+            polls_close__gte=timezone.now())
 
 class ResultsView(LoginRequiredMixin, generic.DetailView):
     model = Question

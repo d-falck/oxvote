@@ -7,13 +7,10 @@ class ChoiceInline(admin.TabularInline):
     extra = 3
 
 class QuestionAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None,               {'fields': ['question_text', 'question_description']}),
-        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
-    ]
+    fields = ['question_text', 'question_description', 'polls_open', 'polls_close']
     inlines = [ChoiceInline]
-    list_display = ('question_text', 'question_description', 'pub_date', 'was_published_recently')
-    list_filter = ['pub_date']
-    search_fields = ['question_text']
+    list_display = ('question_text', 'question_description', 'polls_open', 'polls_close', 'is_open')
+    list_filter = ['polls_open', 'polls_close']
+    search_fields = ['question_text', 'question_description']
 
 admin.site.register(Question, QuestionAdmin)

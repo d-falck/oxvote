@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block content %}
-    {% if latest_question_list %}
-        <h2>Welcome, {{ user.username }}! <br> Polls currently open:</h2>
+    {% if current_question_list %}
+        <h2>Welcome, {{ user.username }}! Currently polling:</h2>
 
-        {% for question in latest_question_list %}
-            <h3><li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li></h3>
+        {% for question in current_question_list %}
+            <h3><li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a> (polls close {{ question.polls_close }})</li></h3>
         {% endfor %}
     {% else %}
-        No polls are available.
+        There are no Elections or Referenda currently polling.
     {% endif %}
 {% endblock %}

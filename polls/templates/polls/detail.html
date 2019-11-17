@@ -6,15 +6,18 @@
 
 {% block content %}
     {{ question.question_description }}
-
-    <br><br>
+    <br>
+    <h3><i>Polls open: {{ question.polls_open }}
+    <br><br>Polls close: {{ question.polls_close }}</i></h3>
     <form action="{% url 'polls:vote' question.id %}" method="post">
         {% csrf_token %}
+        <div class="options">
         {% for choice in question.choice_set.all %}
             <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
             <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
         {% endfor %}
-        <br>
+        </div>
+        <br><br>
         <input type="submit" value="Vote">
     </form>
     {% if error_message %}<strong><br>{{ error_message }}<br></strong>{% endif %}

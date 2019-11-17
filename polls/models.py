@@ -8,16 +8,18 @@ from django.contrib.auth.models import User
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     question_description = models.CharField(max_length=2000)
-    pub_date = models.DateTimeField('date published')
+    polls_open = models.DateTimeField('polls open')
+    polls_close = models.DateTimeField('polls close')
     def __str__(self):
         return self.question_text
-    def was_published_recently(self):
+    def is_open(self):
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.pub_date <= now
-    was_published_recently.admin_order_field = 'pub_date'
-    was_published_recently.boolean = True
-    was_published_recently.short_description = 'Published recently?'
+        return self.polls_open <= now <= self.polls_close
+    is_open.admin_order_field = 'polls_close'
+    is_open.boolean = True
+    is_open.short_description = 'Polls currently open?'
     voters = models.ManyToManyField(User)
+    # single_transferable_vote = models.BooleanField()
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
