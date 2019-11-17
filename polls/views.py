@@ -47,9 +47,18 @@ def vote(request, question_id):
             'error_message': "You didn't select a choice.",
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        if request.user in question.voters.all():
+            # User has already voted
+            return render(request, 'polls/detail.html', {
+                'question': question,
+                'error_message': "You've already voted in this poll."
+            })
+        else:
+            selected_choice.votes += 1
+            selected_choice.save()
+            # Add this voter to the list of voters for this question
+            question.voters.add(request.user)
+            # Always return an HttpResponseRedirect after successfully dealing
+            # with POST data. This prevents data from being posted twice if a
+            # user hits the Back button.
+            return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
