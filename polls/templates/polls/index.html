@@ -5,13 +5,25 @@
 {% endblock %}
 
 {% block content %}
-    {% if current_question_list %}
-        <h2>Welcome, {{ user.username }}! Currently polling:</h2>
-
-        {% for question in current_question_list %}
-            <h3><li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a> (polls close {{ question.polls_close }})</li></h3>
-        {% endfor %}
+    <h2>Welcome, {{ user.username }}!</h2>
+    {% if current_questions %}
+        <h2>You can vote on:</h2>
+        {% if unvoted_current_questions %}
+            {% for question in unvoted_current_questions %}
+                <h3><li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a> (polls close {{ question.polls_close }})</li></h3>
+            {% endfor %}
+        {% else %}
+            <h3>There are no active polls you haven't voted on.</h3>
+        {% endif %}
+        <h2>You've already voted on:</h2>
+        {% if voted_current_questions %}
+            {% for question in voted_current_questions %}
+                <h3><li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a> (polls close {{ question.polls_close }})</li></h3>
+            {% endfor %}
+        {% else %}
+            <h3>You haven't voted on anything still polling.</h3>
+        {% endif %}
     {% else %}
-        There are no Elections or Referenda currently polling.
+        <h3>There are no Elections or Referenda currently polling.</h3>
     {% endif %}
 {% endblock %}

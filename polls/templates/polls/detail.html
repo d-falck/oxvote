@@ -6,9 +6,10 @@
 
 {% block content %}
     {{ question.question_description }}
-    <br>
+    <br><br><br>
     <h3><i>Polls open: {{ question.polls_open }}
     <br><br>Polls close: {{ question.polls_close }}</i></h3>
+    <br>
     <form action="{% url 'polls:vote' question.id %}" method="post">
         {% csrf_token %}
         <div class="options">

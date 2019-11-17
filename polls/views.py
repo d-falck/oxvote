@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
@@ -8,16 +8,21 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Choice, Question
 
-class IndexView(LoginRequiredMixin, generic.ListView):
-    template_name = 'polls/index.html'
-    context_object_name = 'current_question_list'
-
-    def get_queryset(self):
-        """
-        Return all questions currently polling.
-        """
-        return Question.objects.filter(polls_open__lte=timezone.now(),
-            polls_close__gte=timezone.now()).order_by('-polls_close')
+@login_required
+def index(request):
+    # Questions currently polling
+    current_questions = Question.objects.filter(polls_open__lte=timezone.now(),
+        polls_close__gte=timezone.now()).order_by('-polls_close')
+    # Questions currently polling that haven't been voted on
+    unvoted_current_questions = current_questions.exclude(voters=request.user)
+    # Questions currently polling that have already been voted on
+    voted_current_questions =current_questions.filter(voters=request.user)
+    # for question in current_questions:
+    #     if request.user in question.voters.all():
+    #         voted_current_questions.
+    context = {'current_questions': current_questions, 'unvoted_current_questions': unvoted_current_questions,
+                        'voted_current_questions': voted_current_questions}
+    return render(request, 'polls/index.html', context)
 
 class DetailView(LoginRequiredMixin, generic.DetailView):
     model = Question
